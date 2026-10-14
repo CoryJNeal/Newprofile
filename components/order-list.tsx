@@ -50,7 +50,7 @@ export function OrderCard({
             {statusLabel[order.status]}
           </Badge>
           <p className="text-sm font-medium">{money(orderTotal(order))}</p>
-          <ReorderButton />
+          <ReorderButton order={order} label="Add last order to cart" />
         </div>
       </div>
     </article>

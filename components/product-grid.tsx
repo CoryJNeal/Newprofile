@@ -22,18 +22,27 @@ function ProductArt({ category }: { category: CategoryId }) {
   return <div className={cn("h-36 w-full rounded-md", tone[category])} />
 }
 
-export function ProductGrid({ category }: { category: CategoryId }) {
+export function ProductGrid({
+  category,
+  recommendedOnly = false,
+}: {
+  category: CategoryId
+  recommendedOnly?: boolean
+}) {
   const filters = catalogFilters[category]
   const [active, setActive] = React.useState<string | null>(null)
-  const eligible = eligibility[category].eligible
-  const all = productsFor(category)
+  const info = eligibility[category]
+  const eligible = info.eligible
+  const all = productsFor(category).filter((p) =>
+    recommendedOnly ? p.recommended : true
+  )
   const items = active
     ? all.filter((p) => p.requirements.includes(active))
     : all
 
   const cta =
-    eligible && category !== "uniforms"
-      ? `Use ${eligibility[category].subsidyLabel}`
+    eligible && info.kind === "subsidy"
+      ? `Use ${info.subsidyLabel.replace(" remaining", "")}`
       : "Add to cart"
 
   return (
@@ -67,6 +76,12 @@ export function ProductGrid({ category }: { category: CategoryId }) {
           </button>
         ))}
       </div>
+      {items.length === 0 ? (
+        <p className="rounded-xl border bg-background px-4 py-8 text-center text-sm text-muted-foreground">
+          No recommended styles in this view. Open the full catalog to browse
+          every approved option.
+        </p>
+      ) : null}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((product) => (
           <article
@@ -96,10 +111,11 @@ export function ProductGrid({ category }: { category: CategoryId }) {
             </div>
             <div className="mt-3">
               <AddToCartButton
+                product={product}
                 label={cta}
                 disabledHint={
-                  !eligible && category !== "uniforms"
-                    ? `Subsidy available ${eligibility[category].nextEligibleDate}. You can still add at full price.`
+                  !eligible && info.kind === "subsidy"
+                    ? `Subsidy available ${info.nextEligibleDate}. You can still add at full price.`
                     : undefined
                 }
               />

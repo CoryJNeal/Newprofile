@@ -1,24 +1,29 @@
 "use client"
 
 import * as React from "react"
-import { employee } from "@/lib/mock-data"
+import { employee, type CartLine } from "@/lib/mock-data"
 import {
   getCartSnapshot,
   getSessionSnapshot,
   parseSession,
   persistCartIncrement,
+  persistCartLines,
+  persistClearCart,
   persistSession,
   persistSignOut,
   subscribeSession,
 } from "@/lib/session-store"
-import type { SessionRecord } from "@/lib/session"
+import { cartCountFromLines, parseCartLines } from "@/lib/session"
 
 type SessionContextValue = {
-  session: SessionRecord | null
+  session: ReturnType<typeof parseSession>
   cartCount: number
-  signIn: (record: SessionRecord) => void
+  cartLines: CartLine[]
+  signIn: (record: { name: string; id: string }) => void
   signOut: () => void
   addToCart: () => void
+  addLines: (lines: CartLine[]) => void
+  clearCart: () => void
 }
 
 const SessionContext = React.createContext<SessionContextValue | null>(null)
@@ -32,20 +37,24 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const cartRaw = React.useSyncExternalStore(
     subscribeSession,
     getCartSnapshot,
-    () => "2"
+    () => "[]"
   )
   const session = parseSession(raw)
-  const cartCount = Number(cartRaw)
+  const cartLines = parseCartLines(cartRaw)
+  const cartCount = cartCountFromLines(cartLines)
 
   const value = React.useMemo<SessionContextValue>(
     () => ({
       session,
-      cartCount: Number.isFinite(cartCount) ? cartCount : 2,
+      cartCount,
+      cartLines,
       signIn: persistSession,
       signOut: persistSignOut,
       addToCart: persistCartIncrement,
+      addLines: persistCartLines,
+      clearCart: persistClearCart,
     }),
-    [session, cartCount]
+    [session, cartCount, cartLines]
   )
 
   return (

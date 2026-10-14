@@ -3,18 +3,35 @@
 import { toast } from "sonner"
 import { useSession } from "@/components/session-provider"
 import { Button } from "@/components/ui/button"
+import {
+  cartLinesFromOrder,
+  money,
+  type CartLine,
+  type Order,
+  type Product,
+} from "@/lib/mock-data"
 
-export function ReorderButton({ label = "Added to cart for reorder" }: { label?: string }) {
-  const { addToCart } = useSession()
+export function ReorderButton({
+  order,
+  label = "Add to cart",
+}: {
+  order: Order
+  label?: string
+}) {
+  const { addLines } = useSession()
+  const count = order.items.reduce((sum, item) => sum + item.qty, 0)
 
   return (
     <Button
       type="button"
-      variant="outline"
+      variant="link"
       size="sm"
+      className="h-auto px-0"
       onClick={() => {
-        addToCart()
-        toast.success("Added to cart for reorder")
+        addLines(cartLinesFromOrder(order))
+        toast.success(
+          `Added ${count} item${count === 1 ? "" : "s"} from ${order.id} to cart`
+        )
       }}
     >
       {label}
@@ -23,15 +40,19 @@ export function ReorderButton({ label = "Added to cart for reorder" }: { label?:
 }
 
 export function AddToCartButton({
+  product,
+  size = "One size",
   label,
   disabled,
   disabledHint,
 }: {
+  product?: Product
+  size?: string
   label: string
   disabled?: boolean
   disabledHint?: string
 }) {
-  const { addToCart } = useSession()
+  const { addLines, addToCart } = useSession()
 
   return (
     <div className="space-y-1">
@@ -40,8 +61,21 @@ export function AddToCartButton({
         size="sm"
         disabled={disabled}
         onClick={() => {
-          addToCart()
-          toast.success(label)
+          if (product) {
+            const line: CartLine = {
+              key: `${product.id}-${size}`,
+              name: product.name,
+              styleNumber: product.styleNumber,
+              size,
+              qty: 1,
+              price: product.price,
+            }
+            addLines([line])
+            toast.success(`${product.name} added to cart · ${money(product.price)}`)
+          } else {
+            addToCart()
+            toast.success(label)
+          }
         }}
       >
         {label}
