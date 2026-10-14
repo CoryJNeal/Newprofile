@@ -40,25 +40,41 @@ export function ModuleCard({ category }: { category: CategoryId }) {
         ) : null}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {meta.scanHref && !scanned ? (
-          <Link href={meta.scanHref} className={buttonVariants({ size: "sm" })}>
-            Start scan
-          </Link>
-        ) : null}
-        {meta.scanHref && scanned ? (
-          <Link href={meta.scanHref} className={buttonVariants({ size: "sm" })}>
-            Rescan
-          </Link>
-        ) : null}
-        {meta.scanResultsHref && scanned ? (
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap gap-2">
+          {meta.scanHref && !scanned ? (
+            <Link href={meta.scanHref} className={buttonVariants({ size: "sm" })}>
+              Start scan
+            </Link>
+          ) : null}
+          {meta.scanHref && scanned ? (
+            <Link href={meta.scanHref} className={buttonVariants({ size: "sm" })}>
+              Rescan
+            </Link>
+          ) : null}
+          {meta.scanResultsHref && scanned ? (
+            <Link
+              href={meta.scanResultsHref}
+              className={buttonVariants({ variant: "outline", size: "sm" })}
+            >
+              Full scan results
+            </Link>
+          ) : null}
+        </div>
+        <div className="flex flex-wrap gap-2">
           <Link
-            href={meta.scanResultsHref}
-            className={buttonVariants({ variant: "outline", size: "sm" })}
+            href={meta.recommendedHref}
+            className={buttonVariants({ size: "sm" })}
           >
-            Full scan results
+            See recommended styles
           </Link>
-        ) : null}
+          <Link
+            href={meta.catalogHref}
+            className={buttonVariants({ variant: "ghost", size: "sm" })}
+          >
+            Shop full catalog
+          </Link>
+        </div>
       </div>
     </article>
   )
