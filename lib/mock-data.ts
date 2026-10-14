@@ -58,6 +58,15 @@ export type Order = {
   items: OrderItem[]
 }
 
+export type Department = "mens" | "womens"
+export type ApparelType =
+  | "Shirts"
+  | "Pants"
+  | "Jackets"
+  | "Vests"
+  | "Outerwear"
+export type EyewearStyle = "Safety glasses" | "Goggles"
+
 export type Product = {
   id: string
   category: CategoryId
@@ -67,6 +76,12 @@ export type Product = {
   requirements: string[]
   recommended?: boolean
   notes?: string
+  brand?: string
+  departments?: Department[]
+  apparelType?: ApparelType
+  eyewearStyle?: EyewearStyle
+  allotmentLine?: "FR shirts" | "FR pants" | "FR jacket"
+  shopOnly?: boolean
 }
 
 export type UniformStyle = {
@@ -323,6 +338,9 @@ export const products: Product[] = [
     name: "Pyramex Venture 3 Rx",
     styleNumber: "SB1810RX",
     price: 128,
+    brand: "Pyramex",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1", "Rx-capable"],
     recommended: true,
   },
@@ -332,6 +350,9 @@ export const products: Product[] = [
     name: "Wiley X Gravity",
     styleNumber: "CHGRA01",
     price: 149,
+    brand: "Wiley X",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1", "Rx-capable"],
     recommended: true,
   },
@@ -341,6 +362,9 @@ export const products: Product[] = [
     name: "3M SecureFit 400",
     styleNumber: "SF401AF",
     price: 42,
+    brand: "3M",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1", "Anti-fog"],
     recommended: true,
   },
@@ -350,6 +374,9 @@ export const products: Product[] = [
     name: "Uvex Stealth Goggle",
     styleNumber: "S3960C",
     price: 38,
+    brand: "Uvex",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Goggles",
     requirements: ["Z87.1", "Anti-fog"],
   },
   {
@@ -358,6 +385,9 @@ export const products: Product[] = [
     name: "Bolle Silium+",
     styleNumber: "PSIESPSI",
     price: 54,
+    brand: "Bolle",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1", "Anti-fog"],
   },
   {
@@ -366,6 +396,9 @@ export const products: Product[] = [
     name: "Elvex Go-Specs II",
     styleNumber: "SG-31C",
     price: 29,
+    brand: "Elvex",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1"],
   },
   {
@@ -374,6 +407,9 @@ export const products: Product[] = [
     name: "3M Virtua CCS",
     styleNumber: "11872-00000",
     price: 18,
+    brand: "3M",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Safety glasses",
     requirements: ["Z87.1"],
   },
   {
@@ -382,6 +418,9 @@ export const products: Product[] = [
     name: "Pyramex I-Force",
     styleNumber: "GB4010ST",
     price: 36,
+    brand: "Pyramex",
+    departments: ["mens", "womens"],
+    eyewearStyle: "Goggles",
     requirements: ["Z87.1", "Anti-fog"],
   },
   {
@@ -390,6 +429,8 @@ export const products: Product[] = [
     name: "Timberland PRO Boondock 6\"",
     styleNumber: "A1212",
     price: 189,
+    brand: "Timberland PRO",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Composite toe", "EH"],
     recommended: true,
   },
@@ -399,6 +440,8 @@ export const products: Product[] = [
     name: "KEEN Utility Detroit XT",
     styleNumber: "1022096",
     price: 175,
+    brand: "KEEN Utility",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Composite toe", "EH"],
     recommended: true,
   },
@@ -408,6 +451,8 @@ export const products: Product[] = [
     name: "Georgia Boot AMP LT",
     styleNumber: "GB00420",
     price: 245,
+    brand: "Georgia Boot",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Composite toe", "EH"],
   },
   {
@@ -416,6 +461,8 @@ export const products: Product[] = [
     name: "Caterpillar Second Shift",
     styleNumber: "P90815",
     price: 132,
+    brand: "Caterpillar",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Steel toe"],
   },
   {
@@ -424,6 +471,8 @@ export const products: Product[] = [
     name: "Reebok Work Fusion 6\"",
     styleNumber: "RB8750",
     price: 168,
+    brand: "Reebok Work",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Composite toe", "EH"],
   },
   {
@@ -432,6 +481,8 @@ export const products: Product[] = [
     name: "Carolina Comp Toe 6\"",
     styleNumber: "CA8531",
     price: 154,
+    brand: "Carolina",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "EH"],
   },
   {
@@ -440,6 +491,8 @@ export const products: Product[] = [
     name: "Avenger A7126",
     styleNumber: "A7126",
     price: 119,
+    brand: "Avenger",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Composite toe"],
   },
   {
@@ -448,6 +501,8 @@ export const products: Product[] = [
     name: "Thorogood American Heritage",
     styleNumber: "804-4200",
     price: 229,
+    brand: "Thorogood",
+    departments: ["mens"],
     requirements: ["ASTM F2413", "Steel toe", "EH"],
   },
   {
@@ -456,6 +511,10 @@ export const products: Product[] = [
     name: "Bulwark FR Work Shirt",
     styleNumber: "SLU6",
     price: 92,
+    brand: "Bulwark",
+    departments: ["mens"],
+    apparelType: "Shirts",
+    allotmentLine: "FR shirts",
     requirements: ["FR HRC 2", "NFPA 2112"],
     recommended: true,
   },
@@ -465,6 +524,10 @@ export const products: Product[] = [
     name: "Workrite FR Cargo Pant",
     styleNumber: "FP14KH",
     price: 108,
+    brand: "Workrite",
+    departments: ["mens"],
+    apparelType: "Pants",
+    allotmentLine: "FR pants",
     requirements: ["FR HRC 2", "NFPA 2112"],
     recommended: true,
   },
@@ -474,6 +537,9 @@ export const products: Product[] = [
     name: "NSA Class 2 Hi-Vis Vest",
     styleNumber: "VNSC2OR",
     price: 36,
+    brand: "NSA",
+    departments: ["mens"],
+    apparelType: "Vests",
     requirements: ["ANSI 107 Class 2"],
     recommended: true,
   },
@@ -483,6 +549,9 @@ export const products: Product[] = [
     name: "Carhartt FR Duck Coat",
     styleNumber: "101626",
     price: 214,
+    brand: "Carhartt",
+    departments: ["mens"],
+    apparelType: "Outerwear",
     requirements: ["FR HRC 2", "NFPA 2112"],
   },
   {
@@ -491,6 +560,10 @@ export const products: Product[] = [
     name: "Bulwark FR Excel Jacket",
     styleNumber: "JLHR",
     price: 148,
+    brand: "Bulwark",
+    departments: ["mens"],
+    apparelType: "Jackets",
+    allotmentLine: "FR jacket",
     requirements: ["FR HRC 2", "NFPA 2112"],
     recommended: true,
   },
@@ -500,6 +573,10 @@ export const products: Product[] = [
     name: "Ariat FR Crew Knit",
     styleNumber: "10012250",
     price: 78,
+    brand: "Ariat",
+    departments: ["mens"],
+    apparelType: "Shirts",
+    allotmentLine: "FR shirts",
     requirements: ["FR HRC 2"],
   },
   {
@@ -508,6 +585,9 @@ export const products: Product[] = [
     name: "NASCO ArcLite Rain Jacket",
     styleNumber: "2000J",
     price: 164,
+    brand: "NASCO",
+    departments: ["mens"],
+    apparelType: "Jackets",
     requirements: ["FR HRC 2", "ANSI 107 Class 2"],
   },
   {
@@ -516,6 +596,9 @@ export const products: Product[] = [
     name: "PIP Class 2 Tee",
     styleNumber: "311-0120",
     price: 22,
+    brand: "PIP",
+    departments: ["mens"],
+    apparelType: "Shirts",
     requirements: ["ANSI 107 Class 2"],
   },
   {
@@ -524,6 +607,9 @@ export const products: Product[] = [
     name: "OccuNomix Cooling Vest",
     styleNumber: "CV100",
     price: 48,
+    brand: "OccuNomix",
+    departments: ["mens"],
+    apparelType: "Vests",
     requirements: ["Plant 4 heat stress"],
   },
   {
@@ -581,6 +667,243 @@ export const products: Product[] = [
     price: 18,
     requirements: ["Program style", "PiD PID-48295"],
     notes: "Front 4x4",
+  },
+
+  {
+    id: "ew-9",
+    category: "eyewear",
+    name: "Oakley SI Flak 2.0",
+    styleNumber: "OO9247",
+    price: 186,
+    brand: "Oakley",
+    departments: ["mens"],
+    eyewearStyle: "Safety glasses",
+    requirements: ["Z87.1"],
+    shopOnly: true,
+  },
+  {
+    id: "ew-10",
+    category: "eyewear",
+    name: "Wiley X Jinx",
+    styleNumber: "WXJINX01",
+    price: 139,
+    brand: "Wiley X",
+    departments: ["womens"],
+    eyewearStyle: "Safety glasses",
+    requirements: ["Z87.1", "Rx-capable"],
+    shopOnly: true,
+  },
+  {
+    id: "ew-11",
+    category: "eyewear",
+    name: "Pyramex Intruder Small",
+    styleNumber: "SB7100S",
+    price: 34,
+    brand: "Pyramex",
+    departments: ["womens"],
+    eyewearStyle: "Safety glasses",
+    requirements: ["Z87.1", "Anti-fog"],
+    shopOnly: true,
+  },
+  {
+    id: "ew-12",
+    category: "eyewear",
+    name: "Smith Optics Shift Mag",
+    styleNumber: "MAG-W",
+    price: 172,
+    brand: "Smith Optics",
+    departments: ["womens"],
+    eyewearStyle: "Safety glasses",
+    requirements: ["Z87.1"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w1",
+    category: "footwear",
+    name: "Timberland PRO Women's Powertrain 6\"",
+    styleNumber: "TB0A2N3Q",
+    price: 169,
+    brand: "Timberland PRO",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w2",
+    category: "footwear",
+    name: "KEEN Utility Women's Sparta XT",
+    styleNumber: "1024226",
+    price: 160,
+    brand: "KEEN Utility",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w3",
+    category: "footwear",
+    name: "Georgia Boot Women's AMP LT",
+    styleNumber: "GB00425",
+    price: 210,
+    brand: "Georgia Boot",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w4",
+    category: "footwear",
+    name: "Caterpillar Women's Second Shift",
+    styleNumber: "P91012",
+    price: 128,
+    brand: "Caterpillar",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Steel toe"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w5",
+    category: "footwear",
+    name: "Reebok Work Women's Fusion 6\"",
+    styleNumber: "RB8751",
+    price: 158,
+    brand: "Reebok Work",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w6",
+    category: "footwear",
+    name: "Carolina Women's Comp Toe 6\"",
+    styleNumber: "CA8535",
+    price: 149,
+    brand: "Carolina",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w7",
+    category: "footwear",
+    name: "Avenger Women's Framer",
+    styleNumber: "A7127",
+    price: 109,
+    brand: "Avenger",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Composite toe"],
+    shopOnly: true,
+  },
+  {
+    id: "fw-w8",
+    category: "footwear",
+    name: "Thorogood Women's American Heritage",
+    styleNumber: "804-4375",
+    price: 219,
+    brand: "Thorogood",
+    departments: ["womens"],
+    requirements: ["ASTM F2413", "Steel toe", "EH"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w1",
+    category: "apparel",
+    name: "Bulwark Women's FR Work Shirt",
+    styleNumber: "SLU6W",
+    price: 88,
+    brand: "Bulwark",
+    departments: ["womens"],
+    apparelType: "Shirts",
+    allotmentLine: "FR shirts",
+    requirements: ["FR HRC 2", "NFPA 2112"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w2",
+    category: "apparel",
+    name: "Workrite Women's FR Cargo Pant",
+    styleNumber: "FP14KHW",
+    price: 104,
+    brand: "Workrite",
+    departments: ["womens"],
+    apparelType: "Pants",
+    allotmentLine: "FR pants",
+    requirements: ["FR HRC 2", "NFPA 2112"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w3",
+    category: "apparel",
+    name: "Bulwark Women's FR Excel Jacket",
+    styleNumber: "JLHRW",
+    price: 142,
+    brand: "Bulwark",
+    departments: ["womens"],
+    apparelType: "Jackets",
+    allotmentLine: "FR jacket",
+    requirements: ["FR HRC 2", "NFPA 2112"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w4",
+    category: "apparel",
+    name: "Ariat Women's FR Crew Knit",
+    styleNumber: "10012251",
+    price: 76,
+    brand: "Ariat",
+    departments: ["womens"],
+    apparelType: "Shirts",
+    allotmentLine: "FR shirts",
+    requirements: ["FR HRC 2"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w5",
+    category: "apparel",
+    name: "Carhartt Women's FR Duck Coat",
+    styleNumber: "101627",
+    price: 208,
+    brand: "Carhartt",
+    departments: ["womens"],
+    apparelType: "Outerwear",
+    requirements: ["FR HRC 2", "NFPA 2112"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w6",
+    category: "apparel",
+    name: "NSA Women's Class 2 Hi-Vis Vest",
+    styleNumber: "VNSC2ORW",
+    price: 36,
+    brand: "NSA",
+    departments: ["womens"],
+    apparelType: "Vests",
+    requirements: ["ANSI 107 Class 2"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w7",
+    category: "apparel",
+    name: "NASCO Women's ArcLite Rain Jacket",
+    styleNumber: "2000JW",
+    price: 158,
+    brand: "NASCO",
+    departments: ["womens"],
+    apparelType: "Jackets",
+    requirements: ["FR HRC 2", "ANSI 107 Class 2"],
+    shopOnly: true,
+  },
+  {
+    id: "ap-w8",
+    category: "apparel",
+    name: "PIP Women's Class 2 Tee",
+    styleNumber: "311-0121",
+    price: 22,
+    brand: "PIP",
+    departments: ["womens"],
+    apparelType: "Shirts",
+    requirements: ["ANSI 107 Class 2"],
+    shopOnly: true,
   },
 ]
 
@@ -786,7 +1109,12 @@ export function getCategory(id: string) {
 }
 
 export function productsFor(id: CategoryId) {
-  return products.filter((p) => p.category === id)
+  return products.filter((product) => {
+    if (product.category !== id) return false
+    if (product.shopOnly) return false
+    if (product.departments && !product.departments.includes("mens")) return false
+    return true
+  })
 }
 
 export function ordersFor(id: CategoryId) {
