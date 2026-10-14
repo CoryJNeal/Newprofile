@@ -1,10 +1,11 @@
 "use client"
 
-import { Glasses, Menu, ShoppingCart } from "lucide-react"
+import { Glasses, Menu } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { CartSheet } from "@/components/cart-sheet"
 import { useSession } from "@/components/session-provider"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
@@ -20,15 +21,10 @@ const moduleLinks = [
   ...categories.map((c) => ({ href: c.moduleHref, label: c.label })),
 ]
 
-const catalogLinks = categories.map((c) => ({
-  href: c.catalogHref,
-  label: `${c.label} catalog`,
-}))
-
 export function SiteHeader() {
   const pathname = usePathname()
   const router = useRouter()
-  const { session, signOut, cartCount } = useSession()
+  const { session, signOut } = useSession()
 
   function onSignOut() {
     signOut()
@@ -76,20 +72,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <span className="relative inline-flex">
-            <span
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "pointer-events-none"
-              )}
-            >
-              <ShoppingCart className="size-3.5" />
-              Cart
-            </span>
-            <span className="absolute -top-1.5 -right-1.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
-              {cartCount}
-            </span>
-          </span>
+          <CartSheet />
           <div className="hidden items-center gap-2 sm:flex">
             <span className="max-w-[10rem] truncate text-sm text-muted-foreground">
               {session?.name}
@@ -125,18 +108,6 @@ export function SiteHeader() {
                     {link.label}
                   </Link>
                 ))}
-                <p className="mt-3 px-3 text-[10px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-                  Catalogs
-                </p>
-                {catalogLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="rounded-md px-3 py-2 text-sm hover:bg-muted"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
                 <div className="mt-4 border-t px-3 pt-4 text-sm">
                   <p className="text-muted-foreground">{session?.name}</p>
                   <Button
@@ -151,23 +122,6 @@ export function SiteHeader() {
               </div>
             </SheetContent>
           </Sheet>
-        </div>
-      </div>
-      <div className="hidden border-t bg-zinc-50 lg:block">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-1.5 text-xs text-muted-foreground">
-          <span className="font-medium text-foreground">Shop catalogs</span>
-          {catalogLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "hover:text-foreground",
-                pathname === link.href && "text-foreground"
-              )}
-            >
-              {link.label.replace(" catalog", "")}
-            </Link>
-          ))}
         </div>
       </div>
     </header>
