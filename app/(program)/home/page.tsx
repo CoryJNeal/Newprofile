@@ -47,10 +47,13 @@ export default function HomePage() {
 
       <LastOrders />
 
-      <section className="grid gap-4 md:grid-cols-2">
-        {moduleOrder.map((id) => (
-          <ModuleCard key={id} category={id} />
-        ))}
+      <section>
+        <h2 className="text-sm font-medium">Fit and scanning</h2>
+        <div className="mt-3 grid gap-4 md:grid-cols-2">
+          {moduleOrder.map((id) => (
+            <ModuleCard key={id} category={id} />
+          ))}
+        </div>
       </section>
     </div>
   )

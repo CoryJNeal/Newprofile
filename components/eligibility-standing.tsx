@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import { buttonVariants } from "@/components/ui/button"
 import {
   categories,
   eligibility,
@@ -22,9 +21,10 @@ export function EligibilityStanding() {
           const info = eligibility[id]
           if (!meta) return null
           return (
-            <div
+            <Link
               key={id}
-              className="rounded-lg border bg-zinc-50/80 px-3 py-3"
+              href={meta.moduleHref}
+              className="rounded-lg border bg-zinc-50/80 px-3 py-3 transition-colors hover:border-foreground/20 hover:bg-zinc-100 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-medium">{meta.label}</p>
@@ -48,29 +48,10 @@ export function EligibilityStanding() {
               <p className="mt-1 text-xs text-muted-foreground">
                 Next cycle {info.nextEligibleDate}
               </p>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                <Link
-                  href={meta.recommendedHref}
-                  className={buttonVariants({ size: "xs" })}
-                >
-                  See recommended options
-                </Link>
-                <Link
-                  href={meta.catalogHref}
-                  className={buttonVariants({ variant: "outline", size: "xs" })}
-                >
-                  Shop full catalog
-                </Link>
-              </div>
-            </div>
+            </Link>
           )
         })}
       </div>
-      <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-        Scanning, scan results, and recommendations for each program are on
-        this page. Open a category to review your scan, then add approved
-        options to cart.
-      </p>
     </div>
   )
 }

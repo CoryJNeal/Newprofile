@@ -83,10 +83,12 @@ function FootMap({
   side,
   label,
   hotspots,
+  compact = false,
 }: {
   side: "left" | "right"
   label: string
   hotspots: Hotspot[]
+  compact?: boolean
 }) {
   const cells: { x: number; y: number; w: number; h: number; fill: string }[] = []
   const invert = side === "right"
@@ -111,7 +113,7 @@ function FootMap({
     <div className="flex flex-col items-center gap-2">
       <svg
         viewBox="0 0 120 280"
-        className="h-72 w-[8.25rem]"
+        className={compact ? "h-44 w-[5.25rem]" : "h-72 w-[8.25rem]"}
         role="img"
         aria-label={`${label} plantar pressure heatmap`}
       >
@@ -138,17 +140,25 @@ function FootMap({
   )
 }
 
-export function PressureHeatmap() {
+export function PressureHeatmap({ compact = false }: { compact?: boolean }) {
   const peaks = footScan.pressurePeaks
   return (
-    <div className="rounded-xl border bg-zinc-950 p-4 text-zinc-100">
+    <div
+      className={
+        compact
+          ? "rounded-lg border bg-zinc-950 p-3 text-zinc-100"
+          : "rounded-xl border bg-zinc-950 p-4 text-zinc-100"
+      }
+    >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="font-medium text-white">Plantar pressure heatmap</h3>
-          <p className="text-sm text-zinc-400">
-            Foot scan {footScan.scannedOn}. Values in {peaks.unit}. Red is peak
-            load.
-          </p>
+          {compact ? null : (
+            <p className="text-sm text-zinc-400">
+              Foot scan {footScan.scannedOn}. Values in {peaks.unit}. Red is peak
+              load.
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-1 text-[11px] text-zinc-400">
           <span className="mr-1">Low</span>
@@ -156,19 +166,33 @@ export function PressureHeatmap() {
           <span className="ml-1">Peak</span>
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap justify-center gap-8">
+      <div
+        className={
+          compact
+            ? "mt-3 flex flex-wrap justify-center gap-4"
+            : "mt-4 flex flex-wrap justify-center gap-8"
+        }
+      >
         <FootMap
           side="left"
+          compact={compact}
           label={`Left · ${footScan.left.length} · ${footScan.left.width} · ${footScan.left.arch.toLowerCase()} arch`}
           hotspots={LEFT_HOTSPOTS}
         />
         <FootMap
           side="right"
+          compact={compact}
           label={`Right · ${footScan.right.length} · ${footScan.right.width} · ${footScan.right.arch.toLowerCase()} arch`}
           hotspots={RIGHT_HOTSPOTS}
         />
       </div>
-      <dl className="mt-5 grid gap-2 text-sm sm:grid-cols-4">
+      <dl
+        className={
+          compact
+            ? "mt-3 grid grid-cols-2 gap-2 text-sm"
+            : "mt-5 grid gap-2 text-sm sm:grid-cols-4"
+        }
+      >
         <div className="rounded-md bg-white/5 px-3 py-2">
           <dt className="text-xs text-zinc-400">Left heel</dt>
           <dd className="font-medium text-red-400">{peaks.leftHeelKpa} kPa</dd>
