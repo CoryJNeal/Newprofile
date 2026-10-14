@@ -15,8 +15,8 @@ export function ReorderButton({ label = "Added to cart for reorder" }: { label?:
       onClick={() => {
         addToCart()
         toast.success("Added to cart for reorder")
-      }
-    }>
+      }}
+    >
       {label}
     </Button>
   )
