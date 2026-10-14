@@ -1,18 +1,17 @@
 # PPE Program Home
 
-Clickable prototype of an employee landing for a B2B PPE store. Instead of dropping a user on the product list, they sign in and land on a program hub for **eyewear**, **footwear**, **apparel**, and **uniforms**.
+Employee landing for a B2B PPE store. After sign-in, Jordan Hale lands on a program hub that shows **standing eligibility**, last placed orders, scanning, scan results, and recommended options for eyewear, footwear, apparel, and uniforms.
 
-This is a browser-only mock. There is no real authentication, cart, scanner hardware, or checkout.
+This is a browser-only mock. There is no real authentication, scanner hardware, or checkout.
 
 ## What you can do
 
 1. **Employee sign-in** — User + ID #. Demo employee: `Jordan Hale` / `104829`.
-2. **Program Home** — eligibility, subsidy/allotment, last order per category.
-3. **Module pages** — face / foot / body scan data, footwear pressure heatmap, uniform styles (style #, PiD, print jobs).
-4. **Catalogs** — filtered PLPs with job-requirement chips. Add to cart is a toast only.
-5. **Scanner mocks** — static capture screens. The scanner does not run.
-
-Uniforms follow Uniform Desk language: style #, PiD code, print sizes `4x4`, `3x15`, `12x8`, customer/location.
+2. **Program Home** — standing eligibility (not a page explainer), last placed orders that add to cart, and category cards.
+3. **Last placed orders** — click **Add last order to cart** to drop that order into the cart drawer.
+4. **See recommended options** — scan-matched styles for that category.
+5. **See scan results** — footwear includes a plantar pressure heatmap from a completed foot scan.
+6. **Apparel allotment** — 2 FR pants, 1 FR jacket, and 3 FR shirts this cycle (not a dollar subsidy).
 
 ## Run locally
 
