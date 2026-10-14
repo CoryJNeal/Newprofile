@@ -8,7 +8,7 @@ import {
 
 export function EligibilityPanel({ category }: { category: CategoryId }) {
   const info = eligibility[category]
-  const isUniform = category === "uniforms"
+  const isAllotment = info.kind === "allotment"
 
   return (
     <section className="rounded-xl border bg-background p-5">
@@ -23,31 +23,54 @@ export function EligibilityPanel({ category }: { category: CategoryId }) {
           {info.eligible ? "Eligible" : "Not eligible"}
         </Badge>
       </div>
-      <dl className="mt-4 grid gap-3 sm:grid-cols-3">
-        <div>
-          <dt className="text-xs text-muted-foreground">
-            {isUniform ? "Allotment" : "Subsidy"}
-          </dt>
-          <dd className="text-sm font-medium">
-            {isUniform ? info.remaining : money(info.subsidyAmount)}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-xs text-muted-foreground">
-            {info.eligible ? "Next eligibility date" : "Eligible again"}
-          </dt>
-          <dd className="text-sm font-medium">{info.nextEligibleDate}</dd>
-        </div>
-        <div>
-          <dt className="text-xs text-muted-foreground">Account</dt>
-          <dd className="text-sm font-medium">
-            Customer {employee.customerNumber} · Loc {employee.locationNumber}
-          </dd>
-        </div>
-      </dl>
+      {isAllotment && info.allotment ? (
+        <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+          {info.allotment.map((line) => (
+            <li key={line.label} className="rounded-lg bg-zinc-50 px-3 py-2">
+              <p className="text-xs text-muted-foreground">{line.label}</p>
+              <p className="text-sm font-medium">
+                {line.remaining} of {line.allowed} remaining
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <dl className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div>
+            <dt className="text-xs text-muted-foreground">Subsidy</dt>
+            <dd className="text-sm font-medium">{money(info.subsidyAmount)}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">
+              {info.eligible ? "Next eligibility date" : "Eligible again"}
+            </dt>
+            <dd className="text-sm font-medium">{info.nextEligibleDate}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">Account</dt>
+            <dd className="text-sm font-medium">
+              Customer {employee.customerNumber} · Loc {employee.locationNumber}
+            </dd>
+          </div>
+        </dl>
+      )}
+      {isAllotment ? (
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div>
+            <dt className="text-xs text-muted-foreground">Next eligibility date</dt>
+            <dd className="text-sm font-medium">{info.nextEligibleDate}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted-foreground">Account</dt>
+            <dd className="text-sm font-medium">
+              Customer {employee.customerNumber} · Loc {employee.locationNumber}
+            </dd>
+          </div>
+        </dl>
+      ) : null}
       {!info.eligible ? (
         <p className="mt-3 text-sm text-muted-foreground">
-          Your {category} subsidy renews on {info.nextEligibleDate}. You can
+          Your {category} benefit renews on {info.nextEligibleDate}. You can
           still browse the catalog and complete a scan.
         </p>
       ) : null}
