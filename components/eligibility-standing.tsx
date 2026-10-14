@@ -1,4 +1,6 @@
+import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
 import {
   categories,
   eligibility,
@@ -46,6 +48,20 @@ export function EligibilityStanding() {
               <p className="mt-1 text-xs text-muted-foreground">
                 Next cycle {info.nextEligibleDate}
               </p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <Link
+                  href={meta.recommendedHref}
+                  className={buttonVariants({ size: "xs" })}
+                >
+                  See recommended options
+                </Link>
+                <Link
+                  href={meta.catalogHref}
+                  className={buttonVariants({ variant: "outline", size: "xs" })}
+                >
+                  Shop full catalog
+                </Link>
+              </div>
             </div>
           )
         })}
