@@ -1,11 +1,8 @@
+import { EligibilityStanding } from "@/components/eligibility-standing"
+import { LastOrders } from "@/components/last-orders"
 import { ModuleCard } from "@/components/module-card"
 import { Badge } from "@/components/ui/badge"
-import {
-  categories,
-  employee,
-  lastOrderFor,
-  type CategoryId,
-} from "@/lib/mock-data"
+import { employee, type CategoryId } from "@/lib/mock-data"
 
 const moduleOrder: CategoryId[] = [
   "eyewear",
@@ -38,12 +35,7 @@ export default function HomePage() {
             Loc {employee.locationNumber}
           </div>
         </div>
-        <p className="mt-4 max-w-2xl text-sm text-muted-foreground">
-          This is your PPE program home — not the open catalog. Eligibility,
-          subsidy, and approved styles are assigned to your role at Plant 4.
-          Scan when you need a new fit. Shop only gear that meets the site
-          requirements below.
-        </p>
+        <EligibilityStanding />
         <div className="mt-4 flex flex-wrap gap-1.5">
           {employee.roleRequirements.map((req) => (
             <Badge key={req} variant="outline">
@@ -53,27 +45,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section>
-        <h2 className="text-sm font-medium">Last placed order by category</h2>
-        <div className="mt-3 divide-y rounded-xl border bg-background">
-          {moduleOrder.map((id) => {
-            const last = lastOrderFor(id)
-            const meta = categories.find((c) => c.id === id)
-            if (!last || !meta) return null
-            return (
-              <div
-                key={id}
-                className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm"
-              >
-                <span className="font-medium">{meta.label}</span>
-                <span className="text-muted-foreground">
-                  {last.items[0]?.name} · {last.placedOn} · {last.id}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      </section>
+      <LastOrders />
 
       <section className="grid gap-4 md:grid-cols-2">
         {moduleOrder.map((id) => (

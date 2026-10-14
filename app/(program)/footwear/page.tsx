@@ -16,8 +16,8 @@ export default function FootwearPage() {
           Safety footwear program
         </h1>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-          Foot scan and plantar pressure are used to pick last, width, and
-          cushioning. Plant 4 requires ASTM F2413 composite-toe, EH-rated boots.
+          Footwear scanning is complete. Plantar pressure, last, and width are
+          on file. Plant 4 requires ASTM F2413 composite-toe, EH-rated boots.
         </p>
       </div>
       <EligibilityPanel category="footwear" />

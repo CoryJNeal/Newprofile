@@ -16,8 +16,8 @@ export default function ApparelPage() {
           FR and hi-vis apparel
         </h1>
         <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-          Body scan sizes your FR layers. Subsidy is not open until December 15,
-          2026 — you can still scan and browse the catalog.
+          Body scan sizes your FR layers. This cycle you can order 2 pairs of
+          FR pants, 1 FR jacket, and 3 FR shirts.
         </p>
       </div>
       <EligibilityPanel category="apparel" />
