@@ -1,5 +1,8 @@
+import type { CartLine } from "@/lib/mock-data"
+
 export const SESSION_KEY = "ppe-program-session"
 export const CART_KEY = "ppe-program-cart"
+export const CART_ITEMS_KEY = "ppe-program-cart-items"
 
 export type SessionRecord = {
   name: string
@@ -27,13 +30,35 @@ export function clearSession() {
   window.localStorage.removeItem(SESSION_KEY)
 }
 
-export function readCartCount() {
-  if (typeof window === "undefined") return 2
-  const raw = window.localStorage.getItem(CART_KEY)
-  const n = raw ? Number(raw) : 2
-  return Number.isFinite(n) ? n : 2
+export function parseCartLines(raw: string | null): CartLine[] {
+  if (!raw) return []
+  try {
+    const parsed = JSON.parse(raw) as CartLine[]
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter(
+      (line) => line?.name && line?.styleNumber && Number(line.qty) > 0
+    )
+  } catch {
+    return []
+  }
 }
 
-export function writeCartCount(count: number) {
-  window.localStorage.setItem(CART_KEY, String(count))
+export function cartCountFromLines(lines: CartLine[]) {
+  return lines.reduce((sum, line) => sum + line.qty, 0)
+}
+
+export function mergeCartLines(existing: CartLine[], incoming: CartLine[]) {
+  const next = [...existing]
+  for (const line of incoming) {
+    const match = next.find(
+      (item) =>
+        item.styleNumber === line.styleNumber && item.size === line.size
+    )
+    if (match) {
+      match.qty += line.qty
+    } else {
+      next.push({ ...line })
+    }
+  }
+  return next
 }

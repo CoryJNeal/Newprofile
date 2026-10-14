@@ -10,22 +10,28 @@ export function ModuleActions({ category }: { category: CategoryId }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-wrap gap-2">
-        {meta.scanHref ? (
+        <Link
+          href={meta.recommendedHref}
+          className={buttonVariants({ size: "lg" })}
+        >
+          See recommended options
+        </Link>
+        {meta.scanResultsHref ? (
           <Link
-            href={meta.scanHref}
-            className={buttonVariants({ size: "lg" })}
+            href={meta.scanResultsHref}
+            className={buttonVariants({ variant: "outline", size: "lg" })}
           >
-            Start {meta.scanType} scan
+            See scan results
           </Link>
         ) : null}
         <Link
           href={meta.catalogHref}
           className={buttonVariants({
-            variant: meta.scanHref ? "outline" : "default",
+            variant: "outline",
             size: "lg",
           })}
         >
-          Shop {meta.label.toLowerCase()} catalog
+          Shop full catalog
         </Link>
       </div>
       <CatalogSwitcher current={category} />

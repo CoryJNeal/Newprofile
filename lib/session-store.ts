@@ -1,8 +1,13 @@
 import {
+  CART_ITEMS_KEY,
   CART_KEY,
   SESSION_KEY,
+  cartCountFromLines,
+  mergeCartLines,
+  parseCartLines,
   type SessionRecord,
 } from "@/lib/session"
+import type { CartLine } from "@/lib/mock-data"
 
 const listeners = new Set<() => void>()
 
@@ -23,8 +28,8 @@ export function getSessionSnapshot() {
 }
 
 export function getCartSnapshot() {
-  if (typeof window === "undefined") return "2"
-  return window.localStorage.getItem(CART_KEY) ?? "2"
+  if (typeof window === "undefined") return "[]"
+  return window.localStorage.getItem(CART_ITEMS_KEY) ?? "[]"
 }
 
 export function persistSession(record: SessionRecord) {
@@ -37,10 +42,30 @@ export function persistSignOut() {
   emit()
 }
 
+export function persistCartLines(incoming: CartLine[]) {
+  const current = parseCartLines(window.localStorage.getItem(CART_ITEMS_KEY))
+  const next = mergeCartLines(current, incoming)
+  window.localStorage.setItem(CART_ITEMS_KEY, JSON.stringify(next))
+  window.localStorage.setItem(CART_KEY, String(cartCountFromLines(next)))
+  emit()
+}
+
 export function persistCartIncrement() {
-  const current = Number(window.localStorage.getItem(CART_KEY) ?? "2")
-  const next = Number.isFinite(current) ? current + 1 : 3
-  window.localStorage.setItem(CART_KEY, String(next))
+  persistCartLines([
+    {
+      key: `item-${Date.now()}`,
+      name: "Program item",
+      styleNumber: "SKU",
+      size: "—",
+      qty: 1,
+      price: 0,
+    },
+  ])
+}
+
+export function persistClearCart() {
+  window.localStorage.setItem(CART_ITEMS_KEY, "[]")
+  window.localStorage.setItem(CART_KEY, "0")
   emit()
 }
 

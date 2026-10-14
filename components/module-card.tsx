@@ -23,14 +23,19 @@ export function ModuleCard({ category }: { category: CategoryId }) {
           <h2 className="text-lg font-medium">{meta.label}</h2>
           <p className="text-sm text-muted-foreground">{meta.description}</p>
         </div>
-        <Badge variant={info.eligible ? "default" : "destructive"}>
-          {info.eligible ? "Eligible" : "Not eligible"}
-        </Badge>
+        <div className="flex flex-col items-end gap-1">
+          <Badge variant={info.eligible ? "default" : "destructive"}>
+            {info.eligible ? "Eligible" : "Not eligible"}
+          </Badge>
+          {meta.scanComplete ? (
+            <Badge variant="secondary">Scan complete</Badge>
+          ) : null}
+        </div>
       </div>
       <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
         <div>
           <dt className="text-xs text-muted-foreground">
-            {category === "uniforms" ? "Allotment" : "Subsidy"}
+            {info.kind === "allotment" ? "Allotment" : "Subsidy"}
           </dt>
           <dd className="font-medium">{info.subsidyLabel}</dd>
         </div>
@@ -48,25 +53,33 @@ export function ModuleCard({ category }: { category: CategoryId }) {
           <p className="text-xs text-muted-foreground">
             {last.id} · {last.placedOn}
           </p>
-          <div className="mt-2">
-            <ReorderButton />
+          <div className="mt-1">
+            <ReorderButton order={last} label="Add last order to cart" />
           </div>
         </div>
       ) : null}
       <div className="mt-4 flex flex-wrap gap-2">
         <Link
-          href={meta.moduleHref}
+          href={meta.recommendedHref}
           className={buttonVariants({ size: "sm" })}
         >
-          Open {meta.label.toLowerCase()}
+          See recommended options
         </Link>
         <Link
           href={meta.catalogHref}
           className={buttonVariants({ variant: "outline", size: "sm" })}
         >
-          Shop catalog
+          Shop full catalog
         </Link>
-        {meta.scanHref ? (
+        {meta.scanResultsHref ? (
+          <Link
+            href={meta.scanResultsHref}
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+          >
+            See scan results
+          </Link>
+        ) : null}
+        {meta.scanHref && !meta.scanComplete ? (
           <Link
             href={meta.scanHref}
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
