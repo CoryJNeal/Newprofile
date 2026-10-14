@@ -47,7 +47,7 @@ export function FaceScanPanel({ compact = false }: { compact?: boolean }) {
             : ". Used to recommend frame size and Rx insert."}
         </p>
       </div>
-      <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-2 md:grid-cols-4">
         <Metric label="Pupillary distance" value={faceScan.pd} />
         <Metric label="Face width" value={faceScan.faceWidth} />
         <Metric label="Temple length" value={faceScan.templeLength} />
@@ -69,27 +69,66 @@ export function FaceScanPanel({ compact = false }: { compact?: boolean }) {
 }
 
 export function FootScanPanel({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <section className="grid items-stretch gap-4 md:grid-cols-2">
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Captured {footScan.scannedOn}. Recommended size{" "}
+            {footScan.recommendedSize} on a{" "}
+            {footScan.recommendedLast.toLowerCase()}.
+          </p>
+          <dl className="grid grid-cols-2 gap-2">
+            <Metric label="Recommended size" value={footScan.recommendedSize} />
+            <Metric label="Last" value={footScan.recommendedLast} />
+            <Metric
+              label="Left"
+              value={`${footScan.left.length} · ${footScan.left.width} · ${footScan.left.arch.toLowerCase()} arch`}
+            />
+            <Metric
+              label="Right"
+              value={`${footScan.right.length} · ${footScan.right.width} · ${footScan.right.arch.toLowerCase()} arch`}
+            />
+            <Metric
+              label="Left heel"
+              value={`${footScan.pressurePeaks.leftHeelKpa} kPa`}
+            />
+            <Metric
+              label="Left forefoot"
+              value={`${footScan.pressurePeaks.leftForefootKpa} kPa`}
+            />
+            <Metric
+              label="Right heel"
+              value={`${footScan.pressurePeaks.rightHeelKpa} kPa`}
+            />
+            <Metric
+              label="Right forefoot"
+              value={`${footScan.pressurePeaks.rightForefootKpa} kPa`}
+            />
+          </dl>
+        </div>
+        <PressureHeatmap compact mapsOnly />
+      </section>
+    )
+  }
+
   return (
     <section className="space-y-4">
       <div>
-        {compact ? null : <h3 className="font-medium">Foot scan</h3>}
+        <h3 className="font-medium">Foot scan</h3>
         <p className="text-sm text-muted-foreground">
           Captured {footScan.scannedOn}. Recommended size {footScan.recommendedSize}{" "}
           on a {footScan.recommendedLast.toLowerCase()}.
         </p>
       </div>
-      <PressureHeatmap compact={compact} />
-      {compact ? null : (
-        <>
-          <p className="text-sm text-muted-foreground">{footScan.hotspots}</p>
-          <div>
-            <h4 className="text-sm font-medium">Recommended footwear</h4>
-            <div className="mt-2">
-              <Recs items={footwearRecommendations} />
-            </div>
-          </div>
-        </>
-      )}
+      <PressureHeatmap />
+      <p className="text-sm text-muted-foreground">{footScan.hotspots}</p>
+      <div>
+        <h4 className="text-sm font-medium">Recommended footwear</h4>
+        <div className="mt-2">
+          <Recs items={footwearRecommendations} />
+        </div>
+      </div>
     </section>
   )
 }
@@ -104,7 +143,7 @@ export function BodyScanPanel({ compact = false }: { compact?: boolean }) {
           {bodyScan.recommendedPant}.
         </p>
       </div>
-      <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-2 md:grid-cols-4">
         <Metric label="Chest" value={bodyScan.chest} />
         <Metric label="Waist" value={bodyScan.waist} />
         <Metric label="Inseam" value={bodyScan.inseam} />

@@ -113,7 +113,7 @@ function FootMap({
     <div className="flex flex-col items-center gap-2">
       <svg
         viewBox="0 0 120 280"
-        className={compact ? "h-44 w-[5.25rem]" : "h-72 w-[8.25rem]"}
+        className={compact ? "h-52 w-[6rem]" : "h-72 w-[8.25rem]"}
         role="img"
         aria-label={`${label} plantar pressure heatmap`}
       >
@@ -135,18 +135,24 @@ function FootMap({
           strokeWidth="1.5"
         />
       </svg>
-      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p className="text-xs font-medium text-zinc-400">{label}</p>
     </div>
   )
 }
 
-export function PressureHeatmap({ compact = false }: { compact?: boolean }) {
+export function PressureHeatmap({
+  compact = false,
+  mapsOnly = false,
+}: {
+  compact?: boolean
+  mapsOnly?: boolean
+}) {
   const peaks = footScan.pressurePeaks
   return (
     <div
       className={
         compact
-          ? "rounded-lg border bg-zinc-950 p-3 text-zinc-100"
+          ? "flex h-full flex-col rounded-lg border bg-zinc-950 p-3 text-zinc-100"
           : "rounded-xl border bg-zinc-950 p-4 text-zinc-100"
       }
     >
@@ -169,23 +175,32 @@ export function PressureHeatmap({ compact = false }: { compact?: boolean }) {
       <div
         className={
           compact
-            ? "mt-3 flex flex-wrap justify-center gap-4"
+            ? "mt-3 flex flex-1 flex-wrap items-center justify-center gap-6"
             : "mt-4 flex flex-wrap justify-center gap-8"
         }
       >
         <FootMap
           side="left"
           compact={compact}
-          label={`Left · ${footScan.left.length} · ${footScan.left.width} · ${footScan.left.arch.toLowerCase()} arch`}
+          label={
+            mapsOnly
+              ? "Left"
+              : `Left · ${footScan.left.length} · ${footScan.left.width} · ${footScan.left.arch.toLowerCase()} arch`
+          }
           hotspots={LEFT_HOTSPOTS}
         />
         <FootMap
           side="right"
           compact={compact}
-          label={`Right · ${footScan.right.length} · ${footScan.right.width} · ${footScan.right.arch.toLowerCase()} arch`}
+          label={
+            mapsOnly
+              ? "Right"
+              : `Right · ${footScan.right.length} · ${footScan.right.width} · ${footScan.right.arch.toLowerCase()} arch`
+          }
           hotspots={RIGHT_HOTSPOTS}
         />
       </div>
+      {mapsOnly ? null : (
       <dl
         className={
           compact
@@ -216,6 +231,7 @@ export function PressureHeatmap({ compact = false }: { compact?: boolean }) {
           </dd>
         </div>
       </dl>
+      )}
     </div>
   )
 }

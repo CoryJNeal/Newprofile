@@ -2,14 +2,7 @@ import { EligibilityStanding } from "@/components/eligibility-standing"
 import { LastOrders } from "@/components/last-orders"
 import { ModuleCard } from "@/components/module-card"
 import { Badge } from "@/components/ui/badge"
-import { employee, type CategoryId } from "@/lib/mock-data"
-
-const moduleOrder: CategoryId[] = [
-  "eyewear",
-  "footwear",
-  "apparel",
-  "uniforms",
-]
+import { employee } from "@/lib/mock-data"
 
 export default function HomePage() {
   return (
@@ -50,9 +43,11 @@ export default function HomePage() {
       <section>
         <h2 className="text-sm font-medium">Fit and scanning</h2>
         <div className="mt-3 grid gap-4 md:grid-cols-2">
-          {moduleOrder.map((id) => (
-            <ModuleCard key={id} category={id} />
-          ))}
+          <ModuleCard category="eyewear" />
+          <ModuleCard category="apparel" />
+          <div className="md:col-span-2">
+            <ModuleCard category="footwear" />
+          </div>
         </div>
       </section>
     </div>
